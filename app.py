@@ -15,9 +15,10 @@ def handle(msg):
         message = msg['text']
         r = translator.detect(message)
         pprint.pprint(r.lang)
-        if r.lang != target_language:
+        pprint.pprint(r.confidence)
+        if r.lang != target_language and r.confidence > 0.5:
             translated = translator.translate(message,target_language)
-            bot.sendMessage(msg['chat']['id'], translated.text, reply_to_message_id=msg['message_id'])
+            bot.sendMessage(msg['chat']['id'], translated.text)
 
 pprint.pprint(bot.getMe())
 telepot.loop.MessageLoop(bot,handle).run_as_thread()
