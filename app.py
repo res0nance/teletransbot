@@ -17,7 +17,7 @@ def handle(msg):
         pprint.pprint(r.lang)
         if r.lang != target_language:
             translated = translator.translate(message,target_language)
-            bot.sendMessage(msg['chat']['id'], msg['from']['username'] + ':' + translated.text)
+            bot.sendMessage(msg['chat']['id'], translated.text, reply_to_message_id=msg['message_id'])
 
 pprint.pprint(bot.getMe())
 telepot.loop.MessageLoop(bot,handle).run_as_thread()
