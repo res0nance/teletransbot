@@ -19,7 +19,7 @@ def handle(msg):
         pprint.pprint(r.confidence)
         if r.lang != target_language and r.confidence > 0.5:
             translated = translator.translate(message,target_language)
-            bot.sendMessage(msg['chat']['id'], translated.text + ' (' + pycountry.languages.get(alpha_2=r.lang).name + ')', reply_to_message_id=msg['message_id'])
+            bot.sendMessage(msg['chat']['id'], translated.text + ' (' + pycountry.languages.get(alpha_2=r.lang[:2]).name + ')', reply_to_message_id=msg['message_id'])
 
 pprint.pprint(bot.getMe())
 telepot.loop.MessageLoop(bot,handle).run_as_thread()
