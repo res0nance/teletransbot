@@ -52,7 +52,7 @@ def handle(msg):
                 if transtext != w:
                     translist.append(translator.translate(w,target_language).text + ' (' + pycountry.languages.get(alpha_2=r.lang[:2]).name + ') ')
                     translate = True
-                else
+                else:
                     translist.append(w + ' ')
             else:
                 translist.append(w + ' ')
