@@ -38,7 +38,7 @@ def handle(msg):
                     swap = True
                     break
             if not swap:
-                currentWords += word
+                currentWords += word + ' '
         msglist.append(currentWords)
         translate = False
         translist = []
