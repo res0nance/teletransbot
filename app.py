@@ -25,21 +25,21 @@ def handle(msg):
             for t in word:
                 if not isascii(t) and asciimode:
                     print(currentWord)
-                    msglist.append(currentWord)
+                    msglist.append(currentWords)
                     currentWords = word + ' '
                     asciimode = not asciimode
                     swap = True
                     break
                 elif isascii and not asciimode:
                     print(currentWord)
-                    msglist.append(currentWord)
+                    msglist.append(currentWords)
                     currentWords = word + ' '
                     asciimode = not asciimode
                     swap = True
                     break
             if not swap:
                 currentWords += word
-        msglist.append(currentWord)
+        msglist.append(currentWords)
         translate = False
         translist = []
         for w in msglist:
