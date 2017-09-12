@@ -1,2 +1,3 @@
-# teletransbot
-Telegram bot translator
+# TeleTransBot
+* Telegram bot translator
+

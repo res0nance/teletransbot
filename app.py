@@ -17,28 +17,28 @@ def handle(msg):
     if 'text' in msg:
         message = msg['text']
         msglist = []
-        currentWord = ""
+        currentWords = ""
         asciimode = True
-        for t in message:
-            if re.match('\d|\s',t):
-                currentWord += t
-                continue
-            if isascii(t):
-                if asciimode:
-                    currentWord += t
-                else:
+        wordlist = message.split(' ')
+        for word in wordlist:
+            swap = False
+            for t in word:
+                if not isascii(t) and asciimode:
                     print(currentWord)
                     msglist.append(currentWord)
-                    currentWord = t
+                    currentWords = word + ' '
                     asciimode = not asciimode
-            else:
-                if not asciimode:
-                    currentWord += t
-                else:
+                    swap = True
+                    break
+                elif isascii and not asciimode:
                     print(currentWord)
                     msglist.append(currentWord)
-                    currentWord = t
+                    currentWords = word + ' '
                     asciimode = not asciimode
+                    swap = True
+                    break
+            if not swap:
+                currentWords += word
         msglist.append(currentWord)
         translate = False
         translist = []
@@ -47,9 +47,13 @@ def handle(msg):
             pprint.pprint(w)
             pprint.pprint(r.lang)
             pprint.pprint(r.confidence)
-            if r.lang != target_language and r.confidence > 0.5:
-                translist.append(translator.translate(w,target_language).text + ' (' + pycountry.languages.get(alpha_2=r.lang[:2]).name + ') ')
-                translate = True
+            if r.lang != target_language and r.confidence > 0.5 and translator:
+                transtext = translator.translate(w,target_language).text
+                if transtext != w:
+                    translist.append(translator.translate(w,target_language).text + ' (' + pycountry.languages.get(alpha_2=r.lang[:2]).name + ') ')
+                    translate = True
+                else
+                    translist.append(w + ' ')
             else:
                 translist.append(w + ' ')
         if translate:
