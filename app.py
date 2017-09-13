@@ -49,7 +49,7 @@ def handle(msg):
             pprint.pprint(r.confidence)
             if r.lang != target_language and r.confidence > 0.5 and translator:
                 transtext = translator.translate(w,target_language).text
-                if transtext.lower() != w.lower():
+                if transtext.lower() != (w.lower() + ' '):
                     translist.append(translator.translate(w,target_language).text + ' (' + pycountry.languages.get(alpha_2=r.lang[:2]).name + ') ')
                     translate = True
                 else:
