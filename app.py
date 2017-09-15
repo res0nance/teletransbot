@@ -51,7 +51,7 @@ def handle(msg):
                 transtext = translator.translate(w,target_language).text
                 pprint.pprint(transtext)
                 pprint.pprint(w)
-                if transtext.lower() != (w.lower() + ' '):
+                if (transtext.lower() + ' ') != w.lower():
                     translist.append(transtext + ' (' + pycountry.languages.get(alpha_2=r.lang[:2]).name + ') ')
                     translate = True
                 else:
