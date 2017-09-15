@@ -24,14 +24,14 @@ def handle(msg):
             swap = False
             for t in word:
                 if not isascii(t) and asciimode:
-                    print(currentWord)
+                    print(currentWords)
                     msglist.append(currentWords)
                     currentWords = word + ' '
                     asciimode = not asciimode
                     swap = True
                     break
                 elif isascii and not asciimode:
-                    print(currentWord)
+                    print(currentWords)
                     msglist.append(currentWords)
                     currentWords = word + ' '
                     asciimode = not asciimode
