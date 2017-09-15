@@ -44,13 +44,15 @@ def handle(msg):
         translist = []
         for w in msglist:
             r = translator.detect(w)
-            pprint.pprint(w)
+            #pprint.pprint(w)
             pprint.pprint(r.lang)
             pprint.pprint(r.confidence)
             if r.lang != target_language and r.confidence > 0.5 and translator:
                 transtext = translator.translate(w,target_language).text
+                pprint.pprint(transtext)
+                pprint.pprint(w)
                 if transtext.lower() != (w.lower() + ' '):
-                    translist.append(translator.translate(w,target_language).text + ' (' + pycountry.languages.get(alpha_2=r.lang[:2]).name + ') ')
+                    translist.append(transtext + ' (' + pycountry.languages.get(alpha_2=r.lang[:2]).name + ') ')
                     translate = True
                 else:
                     translist.append(w + ' ')
