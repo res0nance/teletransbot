@@ -31,6 +31,7 @@ def handle(msg):
         wordlist = message.split(' ')
         for word in wordlist:
             swap = False
+            pprint.pprint(word)
             for t in word:
                 if not isascii(t) and asciimode:
                     pprint.pprint(currentWords)
