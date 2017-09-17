@@ -19,7 +19,7 @@ def get_required_confidence(w):
         stripped = word.strip()
         if stripped:
             num_words += 1
-    return max(0.6 - (num_words*0.1), 0.1)
+    return max(0.6 - (num_words*0.075), 0.1)
 
 def handle(msg):
     pprint.pprint(msg)
