@@ -12,6 +12,11 @@ translator = Translator()
 target_language = 'en'
 isascii = lambda s: len(s) == len(s.encode())
 
+def get_required_confidence(w):
+    words = w.split(' ')
+    num_words = len(words)
+    return max(0.5 - ()num_words*0.1), 0.1)
+
 def handle(msg):
     pprint.pprint(msg)
     if 'text' in msg:
@@ -24,14 +29,14 @@ def handle(msg):
             swap = False
             for t in word:
                 if not isascii(t) and asciimode:
-                    print(currentWords)
+                    pprint.pprint(currentWords)
                     msglist.append(currentWords)
                     currentWords = word + ' '
                     asciimode = not asciimode
                     swap = True
                     break
                 elif isascii and not asciimode:
-                    print(currentWords)
+                    pprint.pprint(currentWords)
                     msglist.append(currentWords)
                     currentWords = word + ' '
                     asciimode = not asciimode
@@ -44,10 +49,11 @@ def handle(msg):
         translist = []
         for w in msglist:
             r = translator.detect(w)
-            #pprint.pprint(w)
             pprint.pprint(r.lang)
             pprint.pprint(r.confidence)
-            if r.lang != target_language and r.confidence > 0.5 and translator:
+            conf = get_required_confidence(w)
+            pprint.pprint(conf)
+            if r.lang != target_language and r.confidence >= conf and translator:
                 transtext = translator.translate(w,target_language).text
                 pprint.pprint(transtext)
                 pprint.pprint(w)
