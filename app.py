@@ -35,14 +35,16 @@ def handle(msg):
             for t in word:
                 if not isascii(t) and asciimode:
                     pprint.pprint(currentWords)
-                    msglist.append(currentWords)
+                    if currentWords:
+                        msglist.append(currentWords)
                     currentWords = word + ' '
                     asciimode = not asciimode
                     swap = True
                     break
-                elif isascii and not asciimode:
+                elif isascii(t) and not asciimode:
                     pprint.pprint(currentWords)
-                    msglist.append(currentWords)
+                    if currentWords:
+                        msglist.append(currentWords)
                     currentWords = word + ' '
                     asciimode = not asciimode
                     swap = True
