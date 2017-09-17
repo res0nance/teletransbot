@@ -14,7 +14,11 @@ isascii = lambda s: len(s) == len(s.encode())
 
 def get_required_confidence(w):
     words = w.split(' ')
-    num_words = len(words)
+    num_words = 0
+    for word in words:
+        stripped = word.strip()
+        if stripped:
+            num_words += 1
     return max(0.5 - (num_words*0.1), 0.1)
 
 def handle(msg):
