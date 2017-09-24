@@ -16,6 +16,7 @@ bot = None
 translator = None
 
 def Init():
+    global bot, translator
     translator = Translator()
     bot = telepot.Bot(os.environ['telegram_apikey'])
 
