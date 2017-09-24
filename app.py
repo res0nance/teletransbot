@@ -7,10 +7,26 @@ import os
 import pycountry
 import re
 
-bot = telepot.Bot(os.environ['telegram_apikey'])
-translator = Translator()
+
 target_language = 'en'
 isascii = lambda s: len(s) == len(s.encode())
+
+
+bot = None
+translator = None
+
+def Init():
+    translator = Translator()
+    bot = telepot.Bot(os.environ['telegram_apikey'])
+
+def main():
+    Init()
+    pprint.pprint(bot.getMe())
+    telepot.loop.MessageLoop(bot,handle).run_as_thread()
+
+    while 1:
+        time.sleep(10)
+
 
 def get_required_confidence(w):
     words = w.split(' ')
@@ -75,8 +91,6 @@ def handle(msg):
             message = ''.join(translist)
             bot.sendMessage(msg['chat']['id'], message, reply_to_message_id=msg['message_id'])
 
-pprint.pprint(bot.getMe())
-telepot.loop.MessageLoop(bot,handle).run_as_thread()
 
-while 1:
-    time.sleep(10)
+if __name__ == "__main__":
+    main()
