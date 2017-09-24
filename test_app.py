@@ -5,3 +5,6 @@ def test_lambda():
 
 def test_init():
     app.Init()
+
+def test_confidence():
+    assert app.get_required_confidence("derp") == 0.5
