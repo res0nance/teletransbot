@@ -15,7 +15,7 @@ isascii = lambda s: len(s) == len(s.encode())
 bot = None
 translator = None
 
-def Init():
+def init():
     global bot, translator
     translator = Translator()
     bot = telepot.Bot(os.environ['telegram_apikey'])

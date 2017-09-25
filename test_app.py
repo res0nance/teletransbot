@@ -6,7 +6,7 @@ def test_lambda():
     assert app.isascii('る') == False
 
 def test_init():
-    app.Init()
+    app.init()
 
 def test_confidence():
     assert math.isclose(app.get_required_confidence("derp"), 0.5)
