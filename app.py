@@ -21,7 +21,7 @@ def init():
     bot = telepot.Bot(os.environ['telegram_apikey'])
 
 def main():
-    Init()
+    init()
     pprint.pprint(bot.getMe())
     telepot.loop.MessageLoop(bot,handle).run_as_thread()
 
