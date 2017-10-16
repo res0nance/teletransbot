@@ -71,12 +71,15 @@ def handle(msg):
         msglist.append(currentWords)
         translate = False
         translist = []
+        moonrune  = False
         for w in msglist:
             r = translator.detect(w)
             pprint.pprint(r.lang)
             pprint.pprint(r.confidence)
             conf = get_required_confidence(w)
             pprint.pprint(conf)
+            if r.lang[:2] == 'zh' or r.lang[:2] == 'jp':
+                moonrune = True
             if r.lang != target_language and r.confidence >= conf and translator:
                 transtext = translator.translate(w,target_language).text
                 pprint.pprint(transtext)
@@ -88,6 +91,18 @@ def handle(msg):
                     translist.append(w + ' ')
             else:
                 translist.append(w + ' ')
+        if not moonrune:
+            r = translator.detect(message)
+            pprint.pprint(r.lang)
+            pprint.pprint(r.confidence)
+            conf = get_required_confidence(w)
+            pprint.pprint(conf)
+            if r.lang != target_language and r.confidence >= conf and translator:
+                transtext = translator.translate(message,target_language).text
+                if transtext.lower() != message.lower():
+                    translate = True
+                    translist.clear()
+                    translist.append(transtext + ' (' + pycountry.languages.get(alpha_2=r.lang[:2]).name + ') ')
         if translate:
             message = ''.join(translist)
             bot.sendMessage(msg['chat']['id'], message, reply_to_message_id=msg['message_id'])
