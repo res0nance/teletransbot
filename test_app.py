@@ -10,3 +10,6 @@ def test_init():
 
 def test_confidence():
     assert math.isclose(app.get_required_confidence("derp"), 0.5)
+
+def test_split():
+    assert app.split_words("What the fuck")[0].strip() == "What the fuck"
