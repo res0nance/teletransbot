@@ -20,3 +20,9 @@ def test_split_mixed():
     assert words[0].strip() == "没有人"
     assert words[1].strip() == "overnight"
     assert words[2].strip() == "的"
+
+def test_translate():
+    app.init()
+    lang, text = app.translate_text("lul")
+    assert lang == 'nl'
+    assert text == 'dick (Dutch)'
