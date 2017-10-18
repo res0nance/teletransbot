@@ -38,49 +38,53 @@ def get_required_confidence(w):
             num_words += 1
     return max(0.575 - (num_words*0.075), 0.1)
 
+def split_words(message):
+    msglist = []
+    currentWords = ""
+    asciimode = True
+    wordlist = message.split()
+    pprint.pprint(wordlist)
+    for word in wordlist:
+        swap = False
+        for t in word:
+            if not isascii(t) and asciimode:
+                pprint.pprint(currentWords)
+                if currentWords:
+                    msglist.append(currentWords)
+                currentWords = word + ' '
+                asciimode = not asciimode
+                swap = True
+                break
+            elif isascii(t) and not asciimode:
+                pprint.pprint(currentWords)
+                if currentWords:
+                    msglist.append(currentWords)
+                currentWords = word + ' '
+                asciimode = not asciimode
+                swap = True
+                break
+        if not swap:
+            currentWords += word + ' '
+    msglist.append(currentWords)
+    return msglist
+
 def handle(msg):
     pprint.pprint(msg)
     if 'text' in msg:
         message = msg['text']
-        msglist = []
-        currentWords = ""
-        asciimode = True
-        wordlist = message.split()
-        pprint.pprint(wordlist)
-        for word in wordlist:
-            swap = False
-            for t in word:
-                if not isascii(t) and asciimode:
-                    pprint.pprint(currentWords)
-                    if currentWords:
-                        msglist.append(currentWords)
-                    currentWords = word + ' '
-                    asciimode = not asciimode
-                    swap = True
-                    break
-                elif isascii(t) and not asciimode:
-                    pprint.pprint(currentWords)
-                    if currentWords:
-                        msglist.append(currentWords)
-                    currentWords = word + ' '
-                    asciimode = not asciimode
-                    swap = True
-                    break
-            if not swap:
-                currentWords += word + ' '
-        msglist.append(currentWords)
+        msglist = split_words(message)
         translate = False
         translist = []
         moonrune  = False
         for w in msglist:
             r = translator.detect(w)
+            conf = get_required_confidence(w)
             pprint.pprint(r.lang)
             pprint.pprint(r.confidence)
-            conf = get_required_confidence(w)
             pprint.pprint(conf)
             if r.lang[:2] == 'zh' or r.lang[:2] == 'jp':
                 moonrune = True
-            if r.lang != target_language and r.confidence >= conf and translator:
+            if r.lang != target_language and r.confidence >= conf:
                 transtext = translator.translate(w,target_language).text
                 pprint.pprint(transtext)
                 pprint.pprint(w)
@@ -97,7 +101,7 @@ def handle(msg):
             pprint.pprint(r.confidence)
             conf = get_required_confidence(w)
             pprint.pprint(conf)
-            if r.lang != target_language and r.confidence >= conf and translator:
+            if r.lang != target_language and r.confidence >= conf:
                 transtext = translator.translate(message,target_language).text
                 if transtext.lower() != message.lower():
                     translate = True
