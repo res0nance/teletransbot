@@ -26,3 +26,10 @@ def test_translate():
     lang, text = app.translate_text("lul")
     assert lang == 'nl'
     assert text == 'dick (Dutch)'
+    lang, text = app.translate_text("hello")
+    assert text == ""
+
+def test_handle():
+    msg = {}
+    msg['text'] = 'Fake message'
+    app.handle(msg)
