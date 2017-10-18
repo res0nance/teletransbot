@@ -17,6 +17,7 @@ def test_split_trivial():
 
 def test_split_mixed():
     words = app.split_words("没有人overnight的")
+    print (words)
     assert words[1].strip() == "没有人"
     assert words[2].strip() == "overnight"
     assert words[3].strip() == "的"

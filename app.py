@@ -30,7 +30,7 @@ def main():
 
 
 def get_required_confidence(w):
-    words = w.split(' ')
+    words = w.split()
     num_words = 0
     for word in words:
         stripped = word.strip()
@@ -68,6 +68,19 @@ def split_words(message):
     msglist.append(currentWords)
     return msglist
 
+def translate_text(text):
+    r = translator.detect(text)
+    conf = get_required_confidence(text)
+    pprint.pprint(r.lang)
+    pprint.pprint(r.confidence)
+    pprint.pprint(conf)
+    if r.lang != target_language and r.confidence >= conf:
+        transtext = translator.translate(text,target_language).text
+        if transtext.lower().strip() != text.lower().strip():
+            return r.lang, transtext + ' (' + pycountry.languages.get(alpha_2=r.lang[:2]).name + ')'
+    return r.lang[:2], ""
+
+
 def handle(msg):
     pprint.pprint(msg)
     if 'text' in msg:
@@ -77,36 +90,22 @@ def handle(msg):
         translist = []
         moonrune  = False
         for w in msglist:
-            r = translator.detect(w)
-            conf = get_required_confidence(w)
-            pprint.pprint(r.lang)
-            pprint.pprint(r.confidence)
-            pprint.pprint(conf)
-            if r.lang[:2] == 'zh' or r.lang[:2] == 'jp':
+            lang, text = translate_text(w)
+            if lang == 'zh' or lang == 'jp':
                 moonrune = True
-            if r.lang != target_language and r.confidence >= conf:
-                transtext = translator.translate(w,target_language).text
-                if (transtext.lower() + ' ') != w.lower():
-                    translist.append(transtext + ' (' + pycountry.languages.get(alpha_2=r.lang[:2]).name + ') ')
-                    translate = True
-                else:
-                    translist.append(w + ' ')
+            if text:
+                translist.append(text)
+                translate = True
             else:
-                translist.append(w + ' ')
+                translist.append(w)
         if not moonrune:
-            r = translator.detect(message)
-            pprint.pprint(r.lang)
-            pprint.pprint(r.confidence)
-            conf = get_required_confidence(w)
-            pprint.pprint(conf)
-            if r.lang != target_language and r.confidence >= conf:
-                transtext = translator.translate(message,target_language).text
-                if transtext.lower() != message.lower():
+            lang, text = translate_text(message)
+                if text:
                     translate = True
                     translist.clear()
-                    translist.append(transtext + ' (' + pycountry.languages.get(alpha_2=r.lang[:2]).name + ') ')
+                    translist.append(text)
         if translate:
-            message = ''.join(translist)
+            message = ' '.join(translist)
             bot.sendMessage(msg['chat']['id'], message, reply_to_message_id=msg['message_id'])
 
 
