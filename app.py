@@ -43,12 +43,10 @@ def split_words(message):
     currentWords = ""
     asciimode = True
     wordlist = message.split()
-    pprint.pprint(wordlist)
     for word in wordlist:
         swap = False
         for t in word:
             if not isascii(t) and asciimode:
-                pprint.pprint(currentWords)
                 if currentWords:
                     msglist.append(currentWords)
                 currentWords = word + ' '
@@ -56,7 +54,6 @@ def split_words(message):
                 swap = True
                 break
             elif isascii(t) and not asciimode:
-                pprint.pprint(currentWords)
                 if currentWords:
                     msglist.append(currentWords)
                 currentWords = word + ' '
