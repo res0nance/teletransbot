@@ -86,8 +86,6 @@ def handle(msg):
                 moonrune = True
             if r.lang != target_language and r.confidence >= conf:
                 transtext = translator.translate(w,target_language).text
-                pprint.pprint(transtext)
-                pprint.pprint(w)
                 if (transtext.lower() + ' ') != w.lower():
                     translist.append(transtext + ' (' + pycountry.languages.get(alpha_2=r.lang[:2]).name + ') ')
                     translate = True
