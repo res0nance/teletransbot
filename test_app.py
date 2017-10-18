@@ -10,6 +10,13 @@ def test_init():
 
 def test_confidence():
     assert math.isclose(app.get_required_confidence("derp"), 0.5)
+    assert math.isclose(app.get_required_confidence("omg wtf bbq this is totally a legit sequance of words"),0.1)
 
-def test_split():
+def test_split_trivial():
     assert app.split_words("What the fuck")[0].strip() == "What the fuck"
+
+def test_split_mixed():
+    words = app.split_words("没有人overnight的")
+    assert words[0].strip() == "没有人"
+    assert words[1].strip() == "overnight"
+    assert words[2].strip() == "的"
