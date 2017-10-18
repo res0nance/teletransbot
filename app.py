@@ -100,10 +100,10 @@ def handle(msg):
                 translist.append(w)
         if not moonrune:
             lang, text = translate_text(message)
-                if text:
-                    translate = True
-                    translist.clear()
-                    translist.append(text)
+            if text:
+                translate = True
+                translist.clear()
+                translist.append(text)
         if translate:
             message = ' '.join(translist)
             bot.sendMessage(msg['chat']['id'], message, reply_to_message_id=msg['message_id'])
