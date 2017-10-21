@@ -74,7 +74,8 @@ def translate_text(text):
     if r.lang != target_language and r.confidence >= conf:
         transtext = translator.translate(text,target_language).text
         if transtext.lower().strip() != text.lower().strip():
-            return r.lang, transtext + ' (' + pycountry.languages.get(alpha_2=r.lang[:2]).name + ')'
+            return r.lang, transtext + ' (' + pycountry.languages.get(alpha_2 = r.lang[:2]).name
+        + (' : .2f)' % r.confidence)
     return r.lang[:2], ""
 
 
