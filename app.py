@@ -36,7 +36,7 @@ def get_required_confidence(w):
         stripped = word.strip()
         if stripped:
             num_words += 1
-    return max(0.575 - (num_words*0.075), 0.1)
+    return max(0.575 - (num_words*0.05), 0.2)
 
 def split_words(message):
     msglist = []
