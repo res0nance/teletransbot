@@ -79,7 +79,7 @@ def translate_text(text):
     return r.lang[:2], ""
 
 
-def handle_command(text):
+def handle_command(text,id):
     commandtext = text.strip()
     commands = commandtext.split()
 
@@ -87,7 +87,8 @@ def handle_command(text):
         try:
             lang_name = pycountry.languages.get(alpha_2 = commands[1])
             target_language = commands[1]
-        except Exception e:
+            bot.sendMessage(id, 'Target language changed to ' + lang_name)
+        except:
             pass
         return True
     return False
@@ -99,7 +100,7 @@ def handle(msg):
     if 'text' in msg:
         message = msg['text']
 
-        if msg['from']['username'] == os.environ['bot_admin'] and handle_command(message):
+        if msg['from']['username'] == os.environ['bot_admin'] and handle_command(message, msg['chat']['id']):
             return
 
         msglist   = split_words(message)
