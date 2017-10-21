@@ -79,14 +79,34 @@ def translate_text(text):
     return r.lang[:2], ""
 
 
+def handle_command(text):
+    commandtext = text.strip()
+    commands = commandtext.split()
+
+    if len(commands) == 2 and commands[0] == '/tlang' and len(commands[1]) == 2:
+        try:
+            lang_name = pycountry.languages.get(alpha_2 = commands[1])
+            target_language = commands[1]
+        except Exception e:
+            pass
+        return True
+    return False
+
+
+
 def handle(msg):
     pprint.pprint(msg)
     if 'text' in msg:
         message = msg['text']
-        msglist = split_words(message)
+
+        if msg['from']['username'] == os.environ['bot_admin'] and handle_command(message):
+            return
+
+        msglist   = split_words(message)
         translate = False
         translist = []
         moonrune  = False
+
         for w in msglist:
             lang, text = translate_text(w)
             if lang == 'zh' or lang == 'jp':
