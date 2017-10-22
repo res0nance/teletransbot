@@ -75,8 +75,7 @@ def translate_text(text):
         transtext = translator.translate(text,target_language).text
         if transtext.lower().strip() != text.lower().strip():
             conf_rating = str(round(r.confidence,2))
-            return r.lang, transtext + ' (' + pycountry.languages.get(alpha_2 = r.lang[:2]).name
-        + ' : ' + conf_rating + ')'
+            return r.lang, transtext + ' (' + pycountry.languages.get(alpha_2 = r.lang[:2]).name + ' : ' + conf_rating + ')'
     return r.lang[:2], ""
 
 
