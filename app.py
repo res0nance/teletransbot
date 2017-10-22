@@ -74,25 +74,23 @@ def translate_text(text):
     if r.lang != target_language and r.confidence >= conf:
         transtext = translator.translate(text,target_language).text
         if transtext.lower().strip() != text.lower().strip():
+            conf_rating = str(round(r.confidence,2))
             return r.lang, transtext + ' (' + pycountry.languages.get(alpha_2 = r.lang[:2]).name
-        + ' : {0.2f})'.format(r.confidence)
+        + ' : ' + conf_rating + ')'
     return r.lang[:2], ""
 
 
 def handle_command(text,id):
     commandtext = text.strip()
-    commands = commandtext.split()
+    commands    = commandtext.split()
     print('Attempt to handle command')
     if len(commands) == 2 and commands[0] == '/tlang' and len(commands[1]) == 2:
         print('Lang Command')
-        try:
-            print(commands)
-            lang_name = pycountry.languages.get(alpha_2 = commands[1]).name
-            print('Lang retreived ' + lang_name)
-            target_language = commands[1]
-            bot.sendMessage(id, 'Target language changed to ' + lang_name)
-        except:
-            pass
+        print(commands)
+        lang_name = pycountry.languages.get(alpha_2 = commands[1]).name
+        print('Lang retreived ' + lang_name)
+        target_language = commands[1]
+        bot.sendMessage(id, 'Target language changed to ' + lang_name)
         return True
     return False
 
