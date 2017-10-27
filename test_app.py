@@ -9,8 +9,8 @@ def test_init():
     app.init()
 
 def test_confidence():
-    assert math.isclose(app.get_required_confidence("derp"), 0.5)
-    assert math.isclose(app.get_required_confidence("omg wtf bbq this is totally a legit sequance of words"),0.1)
+    assert math.isclose(app.get_required_confidence("derp"), 0.525)
+    assert math.isclose(app.get_required_confidence("omg wtf bbq this is totally a legit sequance of words"),0.2)
 
 def test_split_trivial():
     assert app.split_words("What the fuck")[0].strip() == "What the fuck"
@@ -32,4 +32,5 @@ def test_translate():
 def test_handle():
     msg = {}
     msg['text'] = 'Fake message'
+    msg['from'] = {}
     app.handle(msg)
