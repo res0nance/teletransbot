@@ -77,7 +77,7 @@ def translate_text(text):
             conf_rating = str(round(r.confidence,2))
             trans_msg = transtext + ' (' + pycountry.languages.get(alpha_2 = r.lang[:2]).name + ' : ' + conf_rating + ')'
             return r.lang, trans_msg
-        return r.lang[:2], ""
+    return r.lang[:2], ""
 
 
 def handle_command(text,id):
@@ -100,9 +100,10 @@ def handle(msg):
     pprint.pprint(msg)
     if 'text' in msg:
         message = msg['text']
-
-        if msg['from']['username'] == os.environ['bot_admin'] and handle_command(message, msg['chat']['id']):
-            return
+        
+        if 'username' in msg['from'] and msg['from']['username'] == os.environ['bot_admin']:
+            if handle_command(message, msg['chat']['id']):
+                return
 
         msglist   = split_words(message)
         translate = False
