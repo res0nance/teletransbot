@@ -12,13 +12,13 @@ target_language = 'en'
 isascii = lambda s: len(s) == len(s.encode())
 
 
-bot = None
+bot        = None
 translator = None
 
 def init():
     global bot, translator
     translator = Translator()
-    bot = telepot.Bot(os.environ['telegram_apikey'])
+    bot        = telepot.Bot(os.environ['telegram_apikey'])
 
 def main():
     init()
@@ -30,12 +30,14 @@ def main():
 
 
 def get_required_confidence(w):
-    words = w.split()
+    words     = w.split()
     num_words = 0
+
     for word in words:
-        stripped = word.strip()
+        stripped        = word.strip()
         if stripped:
-            num_words += 1
+            num_words  += 1
+
     return max(0.575 - (num_words*0.05), 0.2)
 
 def split_words(message):
@@ -81,6 +83,7 @@ def translate_text(text):
 
 
 def handle_command(text,id):
+    global target_language
     commandtext = text.strip()
     commands    = commandtext.split()
     print('Attempt to handle command')
@@ -100,7 +103,7 @@ def handle(msg):
     pprint.pprint(msg)
     if 'text' in msg:
         message = msg['text']
-        
+
         if 'username' in msg['from'] and msg['from']['username'] == os.environ['bot_admin']:
             if handle_command(message, msg['chat']['id']):
                 return
