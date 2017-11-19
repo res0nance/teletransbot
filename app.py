@@ -6,6 +6,7 @@ from googletrans import Translator
 import os
 import pycountry
 import re
+import unicodedata
 
 
 target_language = 'en'
@@ -68,14 +69,15 @@ def split_words(message):
     return msglist
 
 def translate_text(text):
-    r = translator.detect(text)
-    conf = get_required_confidence(text)
+    data = ''.join(c for c in unicodedata.normalize('NFC', text) if c <= '\uFFFF')
+    r = translator.detect(data)
+    conf = get_required_confidence(data)
     pprint.pprint(r.lang)
     pprint.pprint(r.confidence)
     pprint.pprint(conf)
     if r.lang != target_language and r.confidence >= conf:
         transtext = translator.translate(text,target_language).text
-        if transtext.lower().strip() != text.lower().strip():
+        if transtext.lower().strip() != data.lower().strip():
             conf_rating = str(round(r.confidence,2))
             trans_msg = transtext + ' (' + pycountry.languages.get(alpha_2 = r.lang[:2]).name + ' : ' + conf_rating + ')'
             return r.lang, trans_msg
