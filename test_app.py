@@ -25,7 +25,7 @@ def test_translate():
     app.init()
     lang, text = app.translate_text("lul")
     assert lang == 'nl'
-    assert text == 'cock (Dutch : 0.93)'
+    assert text == 'dick (Dutch : 0.93)'
     lang, text = app.translate_text("hello")
     assert text == ""
 
