@@ -76,7 +76,7 @@ def translate_text(text):
     pprint.pprint(r.confidence)
     pprint.pprint(conf)
     if r.lang != target_language and r.confidence >= conf:
-        transtext = translator.translate(text,target_language).text
+        transtext = translator.translate(data,target_language).text
         if transtext.lower().strip() != data.lower().strip():
             conf_rating = str(round(r.confidence,2))
             trans_msg = transtext + ' (' + pycountry.languages.get(alpha_2 = r.lang[:2]).name + ' : ' + conf_rating + ')'
