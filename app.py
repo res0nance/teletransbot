@@ -115,13 +115,13 @@ def handle(msg):
         translist = []
 
         if len(msglist) > 1:
-        	for w in msglist:
-            	lang, text = translate_text(w)
-	            if text:
-    	            translist.append(text)
-        	        translate = True
-            	else:
-                	translist.append(w)
+            for w in msglist:
+                lang, text = translate_text(w)
+                if text:
+                    translist.append(text)
+                    translate = True
+                else:
+                    translist.append(w)
         else:
             lang, text = translate_text(message)
             if text:
