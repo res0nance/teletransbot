@@ -111,6 +111,7 @@ def handle(msg):
                 return
 
         msglist   = split_words(message)
+        pprint.pprint(msglist)
         translate = False
         translist = []
 
