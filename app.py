@@ -80,8 +80,8 @@ def translate_text(text):
         if transtext.lower().strip() != data.lower().strip():
             conf_rating = str(round(r.confidence,2))
             trans_msg = transtext + ' (' + pycountry.languages.get(alpha_2 = r.lang[:2]).name + ' : ' + conf_rating + ')'
-            return r.lang, trans_msg
-    return r.lang[:2], ""
+            return r.lang[:2], trans_msg
+    return "", ""
 
 
 def handle_command(text,id):
@@ -113,22 +113,19 @@ def handle(msg):
         msglist   = split_words(message)
         translate = False
         translist = []
-        moonrune  = False
 
-        for w in msglist:
-            lang, text = translate_text(w)
-            if lang == 'zh' or lang == 'jp':
-                moonrune = True
-            if text:
-                translist.append(text)
-                translate = True
-            else:
-                translist.append(w)
-        if not moonrune:
+        if len(msglist) > 1:
+        	for w in msglist:
+            	lang, text = translate_text(w)
+	            if text:
+    	            translist.append(text)
+        	        translate = True
+            	else:
+                	translist.append(w)
+        else:
             lang, text = translate_text(message)
             if text:
                 translate = True
-                translist.clear()
                 translist.append(text)
         if translate:
             message = ' '.join(translist)
