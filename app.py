@@ -2,11 +2,12 @@ import telepot
 import pprint
 import telepot.loop
 import time
+from datetime import datetime, timedelta
 from googletrans import Translator
 import os
 import pycountry
 import re
-import unicodedata
+import unicodedat
 
 
 target_language = 'en'
@@ -105,6 +106,12 @@ def handle_command(text,id):
 
 def handle(msg):
     pprint.pprint(msg)
+
+    if 'date' in msg:
+        delta = datetime.utcnow() - datetime.utcfromtimestamp(msg['date'])
+        if delta > datetime.timedelta(minutes = 1):
+            return
+
     if 'text' in msg:
         message = msg['text']
 
