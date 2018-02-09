@@ -7,7 +7,7 @@ from googletrans import Translator
 import os
 import pycountry
 import re
-import unicodedat
+import unicodedata
 
 
 target_language = 'en'
