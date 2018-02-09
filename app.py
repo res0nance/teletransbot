@@ -109,7 +109,7 @@ def handle(msg):
 
     if 'date' in msg:
         delta = datetime.utcnow() - datetime.utcfromtimestamp(msg['date'])
-        if delta > datetime.timedelta(minutes = 1):
+        if delta > timedelta(minutes = 1):
             return
 
     if 'text' in msg:
