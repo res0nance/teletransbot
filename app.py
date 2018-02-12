@@ -30,7 +30,7 @@ def main():
 
     loop = asyncio.get_event_loop()
     loop.create_task(telepot.loop.MessageLoop(bot, {'chat': handle,
-                                   'callback_query': on_callback_query).run_forever())
+                                   'callback_query': on_callback_query}).run_forever())
 
     loop.run_forever()
 
