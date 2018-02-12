@@ -37,7 +37,7 @@ def test_handle():
     app.handle(msg)
 
 def test_handle_translate():
-	app.test_mode()
+    app.test_mode()
     msg = {}
     msg['text'] = 'lul lul'
     msg['from'] = {}
@@ -46,17 +46,17 @@ def test_handle_translate():
     app.handle(msg)
 
 def test_handle_back():
-	msg = {'date' : 0}
-	app.handle(msg)
+    msg = {'date' : 0}
+    app.handle(msg)
 
 def test_wiki1():
-	app.test_mode()
-	app.handle_command('/wiki metallica', 0)
+    app.test_mode()
+    app.handle_command('/wiki metallica', 0)
 
 def test_wiki2():
-	app.test_mode()
-	app.handle_command('/wiki battery', 0)
+    app.test_mode()
+    app.handle_command('/wiki battery', 0)
 
 def test_wiki3():
-	app.test_mode()
-	app.handle_command('/wiki asdhajshdkhwirqwiofhaishd', 0)
+    app.test_mode()
+    app.handle_command('/wiki asdhajshdkhwirqwiofhaishd', 0)
