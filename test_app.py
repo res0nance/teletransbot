@@ -36,6 +36,10 @@ def test_handle():
     msg['chat'] = {'id' : 0}
     app.handle(msg)
 
+def test_handle_back():
+	msg = {'date' : 0}
+	app.handle(msg)
+
 def test_wiki1():
 	app.test_mode()
 	app.handle_command('/wiki metallica', 0)
