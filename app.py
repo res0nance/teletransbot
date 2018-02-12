@@ -101,7 +101,7 @@ def handle_command(text,id):
         search_param = commands[1]
         try:
             summary_results = wikipedia.summary(search_param)
-            bot.sendMessage(id, wikipedia.summary(summary_results))
+            bot.sendMessage(id, summary_results)
         except wikipedia.exceptions.DisambiguationError:
             buttons = []
             results = wikipedia.search(search_param)
