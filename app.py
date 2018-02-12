@@ -25,6 +25,10 @@ def init():
     translator = Translator()
     bot        = telepot.Bot(os.environ['telegram_apikey'])
 
+def test_mode():
+    global bot
+    bot = None
+
 def send_message(id, msg, **kwargs):
     if bot:
         bot.sendMessage(id,msg, **kwargs)

@@ -37,10 +37,13 @@ def test_handle():
     app.handle(msg)
 
 def test_wiki1():
+	app.test_mode()
 	app.handle_command('/wiki metallica', 0)
 
 def test_wiki2():
+	app.test_mode()
 	app.handle_command('/wiki battery', 0)
 
 def test_wiki3():
+	app.test_mode()
 	app.handle_command('/wiki asdhajshdkhwirqwiofhaishd', 0)
