@@ -33,4 +33,5 @@ def test_handle():
     msg = {}
     msg['text'] = 'Fake message'
     msg['from'] = {}
+    msg['chat'] = {'id' : 0}
     app.handle(msg)

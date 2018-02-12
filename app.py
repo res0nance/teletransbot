@@ -120,7 +120,7 @@ def on_callback_query(msg):
     print('Callback query:', query_id, from_id, data)
     pprint.pprint(msg)
     msg_idf = telepot.message_identifier(msg['message'])
-    bot.editMessage(msg_idf, wikipedia.summary(data))
+    bot.editMessageText(msg_idf, wikipedia.summary(data))
 
 def handle(msg):
     pprint.pprint(msg)
