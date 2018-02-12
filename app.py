@@ -118,6 +118,7 @@ def handle_command(text,id):
 def on_callback_query(msg):
     query_id, from_id, data = telepot.glance(msg, flavor='callback_query')
     print('Callback query:', query_id, from_id, data)
+    pprint.pprint(msg)
     split_data = data.split()
     bot.sendMessage(int(split_data[0]), wikipedia.summary(' '.join(split_data[1:])))
 
