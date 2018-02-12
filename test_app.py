@@ -36,6 +36,15 @@ def test_handle():
     msg['chat'] = {'id' : 0}
     app.handle(msg)
 
+def test_handle_translate():
+	app.test_mode()
+    msg = {}
+    msg['text'] = 'lul lul'
+    msg['from'] = {}
+    msg['message_id'] = 0
+    msg['chat'] = {'id' : 0}
+    app.handle(msg)
+
 def test_handle_back():
 	msg = {'date' : 0}
 	app.handle(msg)
