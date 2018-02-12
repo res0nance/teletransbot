@@ -1,6 +1,7 @@
 import telepot
 import pprint
 import telepot.loop
+import telepot.namedtuple
 import time
 from datetime import datetime, timedelta
 from googletrans import Translator
