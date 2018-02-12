@@ -8,6 +8,8 @@ import os
 import pycountry
 import re
 import unicodedata
+import wikipedia
+import asyncio
 
 
 target_language = 'en'
@@ -25,11 +27,12 @@ def init():
 def main():
     init()
     pprint.pprint(bot.getMe())
-    telepot.loop.MessageLoop(bot,handle).run_as_thread()
 
-    while 1:
-        time.sleep(10)
+    loop = asyncio.get_event_loop()
+    loop.create_task(telepot.loop.MessageLoop(bot, {'chat': handle,
+                                   'callback_query': on_callback_query).run_forever())
 
+    loop.run_forever()
 
 def get_required_confidence(w):
     words     = w.split()
@@ -92,17 +95,29 @@ def handle_command(text,id):
     commandtext = text.strip()
     commands    = commandtext.split()
     print('Attempt to handle command')
-    if len(commands) == 2 and commands[0] == '/tlang' and len(commands[1]) == 2:
-        print('Lang Command')
+    if len(commands) == 2 and commands[0] == '/wiki':
+        print('Wiki Command')
         print(commands)
-        lang_name = pycountry.languages.get(alpha_2 = commands[1]).name
-        print('Lang retreived ' + lang_name)
-        target_language = commands[1]
-        bot.sendMessage(id, 'Target language changed to ' + lang_name)
+        search_param = commands[1]
+        try:
+            summary_results = wikipedia.summary(search_param)
+            bot.sendMessage(id, wikipedia.summary(summary_results))
+        except wikipedia.exceptions.DisambiguationError:
+            buttons = []
+            results = wikipedia.search(search_param)
+            for result in results:
+                buttons.append([telepot.namedtuple.InlineKeyboardButton(text=result, callback_data=result)])
+            bot.sendMessage(id, "Results for "+ search_param, reply_markup=telepot.namedtuple.InlineKeyboardMarkup(inline_keyboard=buttons))
+        except wikipedia.exceptions.PageError:
+            bot.sendMessage(id, "No results found for " + search_param)
         return True
     return False
 
 
+def on_callback_query(msg):
+    query_id, from_id, data = telepot.glance(msg, flavor='callback_query')
+    print('Callback query:', query_id, from_id, data)
+    bot.sendMessage(msg['chat_instance'], wikipedia.summary(data))
 
 def handle(msg):
     pprint.pprint(msg)
@@ -115,9 +130,8 @@ def handle(msg):
     if 'text' in msg:
         message = msg['text']
 
-        if 'username' in msg['from'] and msg['from']['username'] == os.environ['bot_admin']:
-            if handle_command(message, msg['chat']['id']):
-                return
+        if handle_command(message, msg['chat']['id']):
+            return
 
         msglist   = split_words(message)
         pprint.pprint(msglist)
