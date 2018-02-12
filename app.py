@@ -107,7 +107,7 @@ def handle_command(text,id):
             buttons = []
             results = wikipedia.search(search_param)
             for result in results:
-                buttons.append([telepot.namedtuple.InlineKeyboardButton(text=result, callback_data=id + " " + result)])
+                buttons.append([telepot.namedtuple.InlineKeyboardButton(text=result, callback_data=str(id) + " " + result)])
             bot.sendMessage(id, "Results for "+ search_param, reply_markup=telepot.namedtuple.InlineKeyboardMarkup(inline_keyboard=buttons))
         except wikipedia.exceptions.PageError:
             bot.sendMessage(id, "No results found for " + search_param)
@@ -119,7 +119,7 @@ def on_callback_query(msg):
     query_id, from_id, data = telepot.glance(msg, flavor='callback_query')
     print('Callback query:', query_id, from_id, data)
     split_data = data.split()
-    bot.sendMessage(split_data[0], wikipedia.summary(' '.join(split_data[1:])))
+    bot.sendMessage(int(split_data[0]), wikipedia.summary(' '.join(split_data[1:])))
 
 def handle(msg):
     pprint.pprint(msg)
