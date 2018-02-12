@@ -106,7 +106,7 @@ def handle_command(text,id):
         except wikipedia.exceptions.DisambiguationError:
             buttons = []
             results = wikipedia.search(search_param)
-            for result in results:
+            for result in results[1:]:
                 buttons.append([telepot.namedtuple.InlineKeyboardButton(text=result, callback_data=str(id) + " " + result)])
             bot.sendMessage(id, "Results for "+ search_param, reply_markup=telepot.namedtuple.InlineKeyboardMarkup(inline_keyboard=buttons))
         except wikipedia.exceptions.PageError:
