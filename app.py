@@ -96,7 +96,7 @@ def handle_command(text,id):
     commandtext = text.strip()
     commands    = commandtext.split()
     print('Attempt to handle command')
-    if len(commands) == 2 and commands[0] == '/wiki':
+    if len(commands) > 1 and commands[0] == '/wiki':
         print('Wiki Command')
         print(commands)
         search_param = ' '.join(commands[1:])
