@@ -36,5 +36,11 @@ def test_handle():
     msg['chat'] = {'id' : 0}
     app.handle(msg)
 
-def test_command():
-	assert not app.handle("/LUL", 0)
+def test_wiki1():
+	app.handle_command('/wiki metallica', 0)
+
+def test_wiki2():
+	app.handle_command('/wiki battery', 0)
+
+def test_wiki3():
+	app.handle_command('/wiki asdhajshdkhwirqwiofhaishd', 0)

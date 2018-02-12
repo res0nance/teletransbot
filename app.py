@@ -25,6 +25,10 @@ def init():
     translator = Translator()
     bot        = telepot.Bot(os.environ['telegram_apikey'])
 
+def send_message(id, msg, **kwargs):
+    if bot:
+        bot.sendMessage(id,msg, **kwargs)
+
 def main():
     init()
     pprint.pprint(bot.getMe())
@@ -102,15 +106,15 @@ def handle_command(text,id):
         search_param = ' '.join(commands[1:])
         try:
             summary_results = wikipedia.summary(search_param)
-            bot.sendMessage(id, summary_results)
+            send_message(id, summary_results)
         except wikipedia.exceptions.DisambiguationError:
             buttons = []
             results = wikipedia.search(search_param)
             for result in results[1:]:
                 buttons.append([telepot.namedtuple.InlineKeyboardButton(text=result, callback_data=result)])
-            bot.sendMessage(id, "Results for "+ search_param, reply_markup=telepot.namedtuple.InlineKeyboardMarkup(inline_keyboard=buttons))
+            send_message(id, "Results for "+ search_param, reply_markup=telepot.namedtuple.InlineKeyboardMarkup(inline_keyboard=buttons))
         except wikipedia.exceptions.PageError:
-            bot.sendMessage(id, "No results found for " + search_param)
+            send_message(id, "No results found for " + search_param)
         return True
     return False
 
@@ -156,7 +160,7 @@ def handle(msg):
                 translist.append(text)
         if translate:
             message = ' '.join(translist)
-            bot.sendMessage(msg['chat']['id'], message, reply_to_message_id=msg['message_id'])
+            send_message(msg['chat']['id'], message, reply_to_message_id=msg['message_id'])
 
 
 if __name__ == "__main__":
