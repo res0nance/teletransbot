@@ -35,3 +35,6 @@ def test_handle():
     msg['from'] = {}
     msg['chat'] = {'id' : 0}
     app.handle(msg)
+
+def test_command():
+	assert not app.handle("/LUL", 0)
