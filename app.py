@@ -99,7 +99,7 @@ def handle_command(text,id):
     if len(commands) == 2 and commands[0] == '/wiki':
         print('Wiki Command')
         print(commands)
-        search_param = commands[1]
+        search_param = ' '.join(commands[1:])
         try:
             summary_results = wikipedia.summary(search_param)
             bot.sendMessage(id, summary_results)
