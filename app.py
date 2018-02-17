@@ -15,6 +15,7 @@ import lyricwikia
 
 target_language = 'en'
 isascii = lambda s: len(s) == len(s.encode())
+allowed_languages = ['zh', 'ja']
 
 
 bot        = None
@@ -89,7 +90,7 @@ def translate_text(text):
     pprint.pprint(r.lang)
     pprint.pprint(r.confidence)
     pprint.pprint(conf)
-    if r.lang != target_language and r.confidence >= conf:
+    if r.lang != target_language and r.confidence >= conf and r.lang[:2] in allowed_languages:
         transtext = translator.translate(data,target_language).text
         pprint.pprint(transtext)
         if transtext.lower().strip() != data.lower().strip():
