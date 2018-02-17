@@ -10,8 +10,7 @@ import pycountry
 import unicodedata
 import wikipedia
 import asyncio
-import urllib
-from bs4 import BeautifulSoup
+import lyricwikia
 
 
 target_language = 'en'
@@ -125,32 +124,15 @@ def handle_command(text,id):
         return True
     elif commands[0] == '/lyrics':
         print('Lyrics command')
-        search_param = '+'.join(commands[1:])
-        search_page  = urllib.request.urlopen('http://search.azlyrics.com/search.php?q=' + search_param).read()
-        parser       = BeautifulSoup(search_page, 'html.parser')
-        tds  = parser.find_all('td')
-        href = None
-        if len(tds) > 0:
-            for td in tds:
-                if td.has_attr('class'):
-                    href = td.a['href']
-                    break
-        else:
-            send_message(id,'No results for ' + ' '.join(commands[1:]))
-            return False
-
-        print(href)
-        lyric_page  = urllib.request.urlopen(str(href)).read()
-        lyric_parse = BeautifulSoup(lyric_page, 'html.parser')
-
-        for div in lyric_parse.find_all('div'):
-            if div.has_attr('class'):
-                if [u'col-xs-12', u'col-lg-8', u'text-center'] == div['class']:
-                    divs = div
-                    for div in divs.find_all('div'):
-                        if not div.has_attr('class'):
-                            send_message(id, div.text)
-                            return True
+        song_param = ' '.join(commands[1:])
+        song_param = song_param.split('by')
+        if len(song_param) == 2:
+            try:
+                lyrics = lyricwikia.get_lyrics(song_param[1],song_param[0])
+                send_message(id, lyrics)
+            except lyricwikia.LyricsNotFound:
+                send_message(id, "No lyrics found")
+            return True
     return False
 
 

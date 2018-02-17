@@ -2,3 +2,4 @@ googletrans
 telepot
 pycountry
 wikipedia
+lyricwikia
