@@ -23,9 +23,8 @@ def test_split_mixed():
 
 def test_translate():
     app.init()
-    lang, text = app.translate_text("lul")
-    assert lang == 'nl'
-    assert text == 'cock (Dutch : 0.93)'
+    lang, text = app.translate_text("wo bu yao")
+    assert lang == 'zh'
     lang, text = app.translate_text("hello")
     assert text == ""
 
