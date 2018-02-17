@@ -129,7 +129,7 @@ def handle_command(text,id):
         search_page = urllib.request.urlopen('http://search.azlyrics.com/search.php?q=' + search_param).read()
         parser = BeautifulSoup(search_page, 'html.parser')
         try:
-            tds = searchSoup.find_all('td')
+            tds = parser.find_all('td')
             href = alltds[0].a['href']
             for td in tds:
                 if td.has_attr('class'):
@@ -142,7 +142,7 @@ def handle_command(text,id):
         lyric_page  = urllib.request.urlopen(href).read()
         lyric_parse = BeautifulSoup(lyric_page, 'html.parser')
 
-        for div in soup.find_all('div'):
+        for div in lyric_parse.find_all('div'):
             if div.has_attr('class'):
                 if [u'col-xs-12', u'col-lg-8', u'text-center'] == div['class']:
                     divs = div
