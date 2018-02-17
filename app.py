@@ -126,11 +126,11 @@ def handle_command(text,id):
     elif commands[0] == '/lyrics':
         print('Lyrics command')
         search_param = '+'.join(commands[1:])
-        search_page = urllib.request.urlopen('http://search.azlyrics.com/search.php?q=' + search_param).read()
-        parser = BeautifulSoup(search_page, 'html.parser')
+        search_page  = urllib.request.urlopen('http://search.azlyrics.com/search.php?q=' + search_param).read()
+        parser       = BeautifulSoup(search_page, 'html.parser')
         try:
-            tds = parser.find_all('td')
-            href = alltds[0].a['href']
+            tds  = parser.find_all('td')
+            href = tds[0].a['href']
             for td in tds:
                 if td.has_attr('class'):
                     href = td.a['href']
