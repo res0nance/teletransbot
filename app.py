@@ -126,7 +126,7 @@ def handle_command(text,id):
     elif commands[0] == '/lyrics':
         print('Lyrics command')
         search_param = '+'.join(commands[1:])
-        search_page = urllib.urlopen('http://search.azlyrics.com/search.php?q=' + search_param).read()
+        search_page = urllib.request.urlopen('http://search.azlyrics.com/search.php?q=' + search_param).read()
         parser = BeautifulSoup(search_page, 'html.parser')
         try:
             tds = searchSoup.find_all('td')
