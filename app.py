@@ -7,10 +7,11 @@ from datetime import datetime, timedelta
 from googletrans import Translator
 import os
 import pycountry
-import re
 import unicodedata
 import wikipedia
 import asyncio
+import urllib
+from bs4 import BeautifulSoup
 
 
 target_language = 'en'
@@ -104,7 +105,9 @@ def handle_command(text,id):
     commandtext = text.strip()
     commands    = commandtext.split()
     print('Attempt to handle command')
-    if len(commands) > 1 and commands[0] == '/wiki':
+    if len(commands) < 2:
+        return False
+    if commands[0] == '/wiki':
         print('Wiki Command')
         print(commands)
         search_param = ' '.join(commands[1:])
@@ -120,6 +123,33 @@ def handle_command(text,id):
         except wikipedia.exceptions.PageError:
             send_message(id, "No results found for " + search_param)
         return True
+    elif commands[0] == '/lyrics':
+        print('Lyrics command')
+        search_param = '+'.join(commands[1:])
+        search_page = urllib.urlopen('http://search.azlyrics.com/search.php?q=' + search_param).read()
+        parser = BeautifulSoup(search_page, 'html.parser')
+        try:
+            tds = searchSoup.find_all('td')
+            href = alltds[0].a['href']
+            for td in tds:
+                if td.has_attr('class'):
+                    href = td.a['href']
+                    break
+        except IndexError:
+            send_message(id,'No results for ' + ' '.join(commands[1:]))
+            return False
+
+        lyric_page  = urllib.request.urlopen(href).read()
+        lyric_parse = BeautifulSoup(lyric_page, 'html.parser')
+
+        for div in soup.find_all('div'):
+            if div.has_attr('class'):
+                if [u'col-xs-12', u'col-lg-8', u'text-center'] == div['class']:
+                    divs = div
+                    for div in divs.find_all('div'):
+                        if not div.has_attr('class'):
+                            send_message(id, div.text)
+                            return True
     return False
 
 
