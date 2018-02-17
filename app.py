@@ -128,17 +128,18 @@ def handle_command(text,id):
         search_param = '+'.join(commands[1:])
         search_page  = urllib.request.urlopen('http://search.azlyrics.com/search.php?q=' + search_param).read()
         parser       = BeautifulSoup(search_page, 'html.parser')
-        try:
-            tds  = parser.find_all('td')
-            href = tds[0].a['href']
+        tds  = parser.find_all('td')
+        href = None
+        if len(tds) > 0:
             for td in tds:
                 if td.has_attr('class'):
                     href = td.a['href']
                     break
-        except IndexError:
+        else:
             send_message(id,'No results for ' + ' '.join(commands[1:]))
             return False
 
+        print(href)
         lyric_page  = urllib.request.urlopen(href).read()
         lyric_parse = BeautifulSoup(lyric_page, 'html.parser')
 
