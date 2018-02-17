@@ -140,7 +140,7 @@ def handle_command(text,id):
             return False
 
         print(href)
-        lyric_page  = urllib.request.urlopen(href).read()
+        lyric_page  = urllib.request.urlopen(str(href)).read()
         lyric_parse = BeautifulSoup(lyric_page, 'html.parser')
 
         for div in lyric_parse.find_all('div'):
