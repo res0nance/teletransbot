@@ -3,3 +3,4 @@ telepot
 pycountry
 wikipedia
 lyricwikia
+darklyrics

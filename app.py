@@ -11,6 +11,7 @@ import unicodedata
 import wikipedia
 import asyncio
 import lyricwikia
+import darklyrics
 
 
 target_language = 'en'
@@ -127,12 +128,23 @@ def handle_command(text,id):
         print('Lyrics command')
         song_param = ' '.join(commands[1:])
         song_param = song_param.split('by')
-        if len(song_param) == 2:
+        if len(song_param) == 1:
+            try:
+                lyrics = darklyrics.get_lyrics(song_param[0])
+                send_message(id, lyrics)
+            except darklyrics.LyricsNotFound:
+                send_message(id, 'No Lyrics found')
+            return True
+        elif len(song_param) == 2:
             try:
                 lyrics = lyricwikia.get_lyrics(song_param[1],song_param[0])
                 send_message(id, lyrics)
             except lyricwikia.LyricsNotFound:
-                send_message(id, "No lyrics found")
+                try:
+                    lyrics = darklyrics.get_lyrics(song_param[0])
+                    send_message(id, lyrics)
+                except darklyrics.LyricsNotFound:
+                    send_message(id, "No lyrics found")
             return True
     return False
 
