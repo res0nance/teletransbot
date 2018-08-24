@@ -92,6 +92,7 @@ def translate_text(text):
     pprint.pprint(r.confidence)
     pprint.pprint(conf)
     if r.lang != target_language and r.confidence >= conf and r.lang[:2] in allowed_languages:
+        data = data.lower()
         transtext = translator.translate(data,target_language).text
         pprint.pprint(transtext)
         if transtext.lower().strip() != data.lower().strip():
