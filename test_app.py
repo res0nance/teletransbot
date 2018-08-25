@@ -38,7 +38,7 @@ def test_handle():
 def test_handle_translate():
     app.test_mode()
     msg = {}
-    msg['text'] = 'lul lul'
+    msg['text'] = 'dui you ne?'
     msg['from'] = {}
     msg['message_id'] = 0
     msg['chat'] = {'id' : 0}
