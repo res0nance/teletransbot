@@ -16,7 +16,7 @@ import darklyrics
 
 target_language = 'en'
 isascii = lambda s: len(s) == len(s.encode())
-allowed_languages = ['zh', 'ja']
+allowed_languages = ['zh', 'ja', 'ms']
 
 
 bot        = None
