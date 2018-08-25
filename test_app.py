@@ -59,3 +59,11 @@ def test_wiki2():
 def test_wiki3():
     app.test_mode()
     app.handle_command('/wiki asdhajshdkhwirqwiofhaishd', 0)
+    
+def test_lyrics1():
+    app.test_mode()
+    app.handle_command('/lyrics backbone by gojira', 0)
+    
+def test_lyrics2():
+    app.test_mode()
+    app.handle_command('/lyrics Rapid Elemental Dissolve', 0)
