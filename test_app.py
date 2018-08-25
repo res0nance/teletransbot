@@ -35,10 +35,28 @@ def test_handle():
     msg['chat'] = {'id' : 0}
     app.handle(msg)
 
-def test_handle_translate():
+def test_handle_translate1():
     app.test_mode()
     msg = {}
     msg['text'] = 'dui you ne?'
+    msg['from'] = {}
+    msg['message_id'] = 0
+    msg['chat'] = {'id' : 0}
+    app.handle(msg)
+    
+def test_handle_translate2():
+    app.test_mode()
+    msg = {}
+    msg['text'] = '没有人 overnight 的'
+    msg['from'] = {}
+    msg['message_id'] = 0
+    msg['chat'] = {'id' : 0}
+    app.handle(msg)
+    
+def test_handle_command_lyrics():
+    app.test_mode()
+    msg = {}
+    msg['text'] = '/lyrics the art of dying by gojira'
     msg['from'] = {}
     msg['message_id'] = 0
     msg['chat'] = {'id' : 0}
