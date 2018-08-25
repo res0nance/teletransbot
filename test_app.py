@@ -71,6 +71,10 @@ def test_lyrics2():
 def test_lyrics3():
     app.test_mode()
     app.handle_command('/lyrics asdwqjwodjaosjdoqjwodjaosd', 0)
+    
+def test_lyrics4():
+    app.test_mode()
+    app.handle_command('/lyrics asdwqjwodjaosjdoqjwodjaosd by qiwjdoijasidjoqiwjdoiajsodijqwd', 0)
 
 def test_no_command():
     app.test_mode()
