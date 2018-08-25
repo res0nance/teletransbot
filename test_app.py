@@ -67,6 +67,10 @@ def test_lyrics1():
 def test_lyrics2():
     app.test_mode()
     app.handle_command('/lyrics Rapid Elemental Dissolve', 0)
+    
+def test_lyrics3():
+    app.test_mode()
+    app.handle_command('/lyrics asdwqjwodjaosjdoqjwodjaosd', 0)
 
 def test_no_command():
     app.test_mode()
