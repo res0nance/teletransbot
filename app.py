@@ -93,11 +93,13 @@ def translate_text(text):
     pprint.pprint(conf)
     if r.lang != target_language and r.confidence >= conf and r.lang[:2] in allowed_languages:
         data = data.lower()
-        transtext = translator.translate(data,target_language).text
+        translate_object = translator.translate(data,target_language)
+        transtext = translate_object.text
+        transpro = translate_object.pronunciation
         pprint.pprint(transtext)
         if transtext.lower().strip() != data.lower().strip():
             conf_rating = str(round(r.confidence,2))
-            trans_msg = transtext + ' (' + pycountry.languages.get(alpha_2 = r.lang[:2]).name + ' : ' + conf_rating + ')'
+            trans_msg = transtext + ' (' + transpro + ' : ' + pycountry.languages.get(alpha_2 = r.lang[:2]).name + ' : ' + conf_rating + ')'
             return r.lang[:2], trans_msg
     return "", ""
 
