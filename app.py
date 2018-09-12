@@ -95,7 +95,7 @@ def translate_text(text):
         data = data.lower()
         translate_object = translator.translate(data,target_language)
         transtext = translate_object.text
-        transpro = translate_object.pronunciation
+        transpro = translate_object.pronunciation if translate_object.pronunciation else ''
         pprint.pprint(transtext)
         if transtext.lower().strip() != data.lower().strip():
             conf_rating = str(round(r.confidence,2))
