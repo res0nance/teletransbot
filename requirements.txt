@@ -1,5 +1,5 @@
 aiohttp
-googletrans
+git+git://github.com/BoseCorp/py-googletrans@master
 telepot
 pycountry
 wikipedia
