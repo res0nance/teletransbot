@@ -4,7 +4,7 @@ import telepot.loop
 import telepot.namedtuple
 import time
 from datetime import datetime, timedelta
-from py_translator import Translator
+from googletrans import Translator
 import os
 import pycountry
 import unicodedata
