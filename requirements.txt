@@ -1,5 +1,5 @@
 aiohttp
-py_translator
+git+git://github.com/res0nance/py_translator@master
 telepot
 pycountry
 wikipedia
