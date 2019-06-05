@@ -142,6 +142,7 @@ def handle_command(text,id):
             summary_results = wikipedia.summary(search_param)
             send_message(id, summary_results.split('\n')[0], quote=False)
         except wikipedia.exceptions.DisambiguationError:
+            pass
             # buttons = []
             # results = wikipedia.search(search_param)
             # for result in results[1:]:
