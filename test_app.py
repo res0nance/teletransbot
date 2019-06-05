@@ -29,42 +29,42 @@ def test_translate():
     assert text == ""
 
 def test_handle():
-    msg = {}
-    msg['text'] = 'Fake message'
-    msg['from'] = {}
-    msg['chat'] = {'id' : 0}
-    app.handle(msg)
+    # msg = {}
+    # msg['text'] = 'Fake message'
+    # msg['from'] = {}
+    # msg['chat'] = {'id' : 0}
+    app.handle('Fake message', 0)
 
 def test_handle_translate1():
     app.test_mode()
-    msg = {}
-    msg['text'] = 'dui you ne?'
-    msg['from'] = {}
-    msg['message_id'] = 0
-    msg['chat'] = {'id' : 0}
-    app.handle(msg)
-    
+    # msg = {}
+    # msg['text'] = 'dui you ne?'
+    # msg['from'] = {}
+    # msg['message_id'] = 0
+    # msg['chat'] = {'id' : 0}
+    app.handle('dui you ne?', 0,)
+
 def test_handle_translate2():
     app.test_mode()
-    msg = {}
-    msg['text'] = '没有人 overnight 的'
-    msg['from'] = {}
-    msg['message_id'] = 0
-    msg['chat'] = {'id' : 0}
-    app.handle(msg)
-    
+    # msg = {}
+    # msg['text'] = '没有人 overnight 的'
+    # msg['from'] = {}
+    # msg['message_id'] = 0
+    # msg['chat'] = {'id' : 0}
+    app.handle('没有人 overnight 的',0)
+
 def test_handle_command_lyrics():
     app.test_mode()
-    msg = {}
-    msg['text'] = '/lyrics the art of dying by gojira'
-    msg['from'] = {}
-    msg['message_id'] = 0
-    msg['chat'] = {'id' : 0}
-    app.handle(msg)
+    # msg = {}
+    # msg['text'] = '/lyrics the art of dying by gojira'
+    # msg['from'] = {}
+    # msg['message_id'] = 0
+    # msg['chat'] = {'id' : 0}
+    app.handle('/lyrics the art of dying by gojira', 0)
 
-def test_handle_back():
-    msg = {'date' : 0}
-    app.handle(msg)
+# def test_handle_back():
+#     msg = {'date' : 0}
+#     app.handle(msg)
 
 def test_wiki1():
     app.test_mode()
@@ -77,19 +77,19 @@ def test_wiki2():
 def test_wiki3():
     app.test_mode()
     app.handle_command('/wiki asdhajshdkhwirqwiofhaishd', 0)
-    
+
 def test_lyrics1():
     app.test_mode()
     app.handle_command('/lyrics backbone by gojira', 0)
-    
+
 def test_lyrics2():
     app.test_mode()
     app.handle_command('/lyrics Rapid Elemental Dissolve', 0)
-    
+
 def test_lyrics3():
     app.test_mode()
     app.handle_command('/lyrics asdwqjwodjaosjdoqjwodjaosd', 0)
-    
+
 def test_lyrics4():
     app.test_mode()
     app.handle_command('/lyrics asdwqjwodjaosjdoqjwodjaosd by qiwjdoijasidjoqiwjdoiajsodijqwd', 0)
