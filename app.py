@@ -58,10 +58,11 @@ def main():
             for update in bot.get_updates(offset=update_id, timeout=10):
                 update_id = update.update_id + 1
 
-                if update.message:  # your bot can receive updates without messages
+                if update.callback_query:
+                    on_callback_query(update.callback_query.id, update.callback_query.message.chat.id, update.callback_query.message.message_id, update.callback_query.data)
+                elif update.message:  # your bot can receive updates without messages
                     # Reply to the message
                     handle(update.message.text, update.message.chat_id, update.message.message_id, update.message.date)
-                    # update.message.reply_text(update.message.text)
         except NetworkError:
             sleep(1)
         except Unauthorized:
@@ -142,12 +143,11 @@ def handle_command(text,id):
             summary_results = wikipedia.summary(search_param)
             send_message(id, summary_results.split('\n')[0], quote=False)
         except wikipedia.exceptions.DisambiguationError:
-            pass
-            # buttons = []
-            # results = wikipedia.search(search_param)
-            # for result in results[1:]:
-                # buttons.append([telepot.namedtuple.InlineKeyboardButton(text=result, callback_data=result)])
-            # send_message(id, "Results for "+ search_param, reply_markup=telepot.namedtuple.InlineKeyboardMarkup(inline_keyboard=buttons))
+            buttons = []
+            results = wikipedia.search(search_param)
+            for result in results[1:]:
+                buttons.append([telegram.InlineKeyboardButton(text=result, callback_data=result)])
+            send_message(id, "Results for "+ search_param, reply_markup=telegram.InlineKeyboardMarkup(inline_keyboard=buttons))
         except wikipedia.exceptions.PageError:
             send_message(id, "No results found for " + search_param)
         return True
@@ -176,15 +176,14 @@ def handle_command(text,id):
     return False
 
 
-def on_callback_query(msg):
-    query_id, from_id, data = telepot.glance(msg, flavor='callback_query')
-    print('Callback query:', query_id, from_id, data)
-    pprint.pprint(msg)
-    msg_idf = telepot.message_identifier(msg['message'])
-    bot.editMessageText(msg_idf, wikipedia.summary(data))
+def on_callback_query(query_id, chat_id, msg_idf, data):
+    # query_id, from_id, data = telepot.glance(msg, flavor='callback_query')
+    print('Callback query:', query_id, chat_id, msg_idf, data)
+    # pprint.pprint(msg)
+    # msg_idf = telepot.message_identifier(msg['message'])
+    bot.editMessageText(wikipedia.summary(data), chat_id=chat_id, message_id=msg_idf)
 
 def handle(message, id, msg_id, date=None):
-    # pprint.pprint(msg)
 
     if date != None:
         delta = datetime.utcnow() - date
@@ -215,7 +214,6 @@ def handle(message, id, msg_id, date=None):
     if translate:
         message = ' '.join(translist)
         send_message(id, message, quote=True, reply_to_message_id=msg_id)
-
 
 if __name__ == "__main__":
     main()
