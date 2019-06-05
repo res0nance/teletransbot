@@ -60,7 +60,7 @@ def main():
 
                 if update.message:  # your bot can receive updates without messages
                     # Reply to the message
-                    handle(update.message.text, update.message.chat_id)
+                    handle(update.message.text, update.message.chat_id, update.message.message_id, update.message.date)
                     # update.message.reply_text(update.message.text)
         except NetworkError:
             sleep(1)
@@ -183,16 +183,13 @@ def on_callback_query(msg):
     msg_idf = telepot.message_identifier(msg['message'])
     bot.editMessageText(msg_idf, wikipedia.summary(data))
 
-def handle(message, id):
+def handle(message, id, msg_id, date=None):
     # pprint.pprint(msg)
 
-    # if 'date' in msg:
-    #     delta = datetime.utcnow() - datetime.utcfromtimestamp(msg['date'])
-    #     if delta > timedelta(minutes = 1):
-    #         return
-
-    # if 'text' in msg:
-        # message = msg['text']
+    if date != None:
+        delta = datetime.utcnow() - date
+        if delta > timedelta(minutes = 1):
+            return
 
     if handle_command(message, id):
         return
@@ -217,7 +214,7 @@ def handle(message, id):
             translist.append(text)
     if translate:
         message = ' '.join(translist)
-        send_message(id, message, quote=True)
+        send_message(id, message, quote=True, reply_to_message_id=msg_id)
 
 
 if __name__ == "__main__":

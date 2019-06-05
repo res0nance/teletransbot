@@ -1,5 +1,6 @@
 import app
 import math
+from datetime import datetime
 
 def test_lambda():
     assert app.isascii('a') == True
@@ -62,9 +63,9 @@ def test_handle_command_lyrics():
     # msg['chat'] = {'id' : 0}
     app.handle('/lyrics the art of dying by gojira', 0)
 
-# def test_handle_back():
-#     msg = {'date' : 0}
-#     app.handle(msg)
+def test_handle_back():
+    # msg = {'date' : 0}
+    app.handle('',0, datetime.utcfromtimestamp(0))
 
 def test_wiki1():
     app.test_mode()
