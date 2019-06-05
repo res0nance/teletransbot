@@ -1,7 +1,8 @@
-import telepot
+import logging
+import telegram
+from telegram.error import NetworkError, Unauthorized
+from time import sleep
 import pprint
-import telepot.loop
-import telepot.namedtuple
 import time
 from datetime import datetime, timedelta
 from googletrans import Translator
@@ -9,7 +10,6 @@ import os
 import pycountry
 import unicodedata
 import wikipedia
-import asyncio
 import lyricwikia
 import darklyrics
 
@@ -21,11 +21,23 @@ allowed_languages = ['zh', 'ja', 'ms', 'id', 'tl']
 
 bot        = None
 translator = None
+update_id  = None
 
 def init():
-    global bot, translator
+    global bot, translator, update_id
+    # bot        = telepot.Bot(os.environ['telegram_apikey'])
     translator = Translator()
-    bot        = telepot.Bot(os.environ['telegram_apikey'])
+    # Telegram Bot Authorization Token
+    bot = telegram.Bot(os.environ['telegram_apikey'])
+
+    # get the first pending update_id, this is so we can skip over it in case
+    # we get an "Unauthorized" exception.
+    try:
+        update_id = bot.get_updates()[0].update_id
+    except IndexError:
+        update_id = None
+
+    logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 def test_mode():
     global bot
@@ -33,17 +45,28 @@ def test_mode():
 
 def send_message(id, msg, **kwargs):
     if bot:
-        bot.sendMessage(id,msg, **kwargs)
+        bot.send_message(id,msg, **kwargs)
 
 def main():
+    global update_id
     init()
     pprint.pprint(bot.getMe())
 
-    loop = asyncio.get_event_loop()
-    loop.create_task(telepot.loop.MessageLoop(bot, {'chat': handle,
-                                   'callback_query': on_callback_query}).run_forever())
+    while True:
+        try:
+            # Request updates after the last update_id
+            for update in bot.get_updates(offset=update_id, timeout=10):
+                update_id = update.update_id + 1
 
-    loop.run_forever()
+                if update.message:  # your bot can receive updates without messages
+                    # Reply to the message
+                    handle(update.message.text, update.message.chat_id)
+                    # update.message.reply_text(update.message.text)
+        except NetworkError:
+            sleep(1)
+        except Unauthorized:
+            # The user has removed or blocked the bot.
+            update_id += 1
 
 def get_required_confidence(w):
     words     = w.split()
@@ -117,13 +140,13 @@ def handle_command(text,id):
         search_param = ' '.join(commands[1:])
         try:
             summary_results = wikipedia.summary(search_param)
-            send_message(id, summary_results.split('\n')[0])
+            send_message(id, summary_results.split('\n')[0], quote=False)
         except wikipedia.exceptions.DisambiguationError:
-            buttons = []
-            results = wikipedia.search(search_param)
-            for result in results[1:]:
-                buttons.append([telepot.namedtuple.InlineKeyboardButton(text=result, callback_data=result)])
-            send_message(id, "Results for "+ search_param, reply_markup=telepot.namedtuple.InlineKeyboardMarkup(inline_keyboard=buttons))
+            # buttons = []
+            # results = wikipedia.search(search_param)
+            # for result in results[1:]:
+                # buttons.append([telepot.namedtuple.InlineKeyboardButton(text=result, callback_data=result)])
+            # send_message(id, "Results for "+ search_param, reply_markup=telepot.namedtuple.InlineKeyboardMarkup(inline_keyboard=buttons))
         except wikipedia.exceptions.PageError:
             send_message(id, "No results found for " + search_param)
         return True
@@ -134,20 +157,20 @@ def handle_command(text,id):
         if len(song_param) == 1:
             try:
                 lyrics = darklyrics.get_lyrics(song_param[0])
-                send_message(id, lyrics)
+                send_message(id, lyrics, quote=False)
             except darklyrics.LyricsNotFound:
-                send_message(id, 'No Lyrics found')
+                send_message(id, 'No Lyrics found', quote=False)
             return True
         elif len(song_param) == 2:
             try:
                 lyrics = lyricwikia.get_lyrics(song_param[1],song_param[0])
-                send_message(id, lyrics)
+                send_message(id, lyrics, quote=False)
             except lyricwikia.LyricsNotFound:
                 try:
                     lyrics = darklyrics.get_lyrics(song_param[0])
-                    send_message(id, lyrics)
+                    send_message(id, lyrics, quote=False)
                 except darklyrics.LyricsNotFound:
-                    send_message(id, "No lyrics found")
+                    send_message(id, "No lyrics found", quote=False)
             return True
     return False
 
@@ -159,41 +182,41 @@ def on_callback_query(msg):
     msg_idf = telepot.message_identifier(msg['message'])
     bot.editMessageText(msg_idf, wikipedia.summary(data))
 
-def handle(msg):
-    pprint.pprint(msg)
+def handle(message, id):
+    # pprint.pprint(msg)
 
-    if 'date' in msg:
-        delta = datetime.utcnow() - datetime.utcfromtimestamp(msg['date'])
-        if delta > timedelta(minutes = 1):
-            return
+    # if 'date' in msg:
+    #     delta = datetime.utcnow() - datetime.utcfromtimestamp(msg['date'])
+    #     if delta > timedelta(minutes = 1):
+    #         return
 
-    if 'text' in msg:
-        message = msg['text']
+    # if 'text' in msg:
+        # message = msg['text']
 
-        if handle_command(message, msg['chat']['id']):
-            return
+    if handle_command(message, id):
+        return
 
-        msglist   = split_words(message)
-        pprint.pprint(msglist)
-        translate = False
-        translist = []
+    msglist   = split_words(message)
+    pprint.pprint(msglist)
+    translate = False
+    translist = []
 
-        if len(msglist) > 1:
-            for w in msglist:
-                lang, text = translate_text(w)
-                if text:
-                    translist.append(text)
-                    translate = True
-                else:
-                    translist.append(w)
-        else:
-            lang, text = translate_text(message)
+    if len(msglist) > 1:
+        for w in msglist:
+            lang, text = translate_text(w)
             if text:
-                translate = True
                 translist.append(text)
-        if translate:
-            message = ' '.join(translist)
-            send_message(msg['chat']['id'], message, reply_to_message_id=msg['message_id'])
+                translate = True
+            else:
+                translist.append(w)
+    else:
+        lang, text = translate_text(message)
+        if text:
+            translate = True
+            translist.append(text)
+    if translate:
+        message = ' '.join(translist)
+        send_message(id, message, quote=True)
 
 
 if __name__ == "__main__":
