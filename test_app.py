@@ -69,31 +69,31 @@ def test_handle_back():
 
 def test_wiki1():
     app.test_mode()
-    app.handle_command('/wiki metallica', 0,0)
+    app.handle_command('/wiki metallica', 0)
 
 def test_wiki2():
     app.test_mode()
-    app.handle_command('/wiki battery', 0,0)
+    app.handle_command('/wiki battery', 0)
 
 def test_wiki3():
     app.test_mode()
-    app.handle_command('/wiki asdhajshdkhwirqwiofhaishd', 0,0)
+    app.handle_command('/wiki asdhajshdkhwirqwiofhaishd', 0)
 
 def test_lyrics1():
     app.test_mode()
-    app.handle_command('/lyrics backbone by gojira', 0,0)
+    app.handle_command('/lyrics backbone by gojira', 0)
 
 def test_lyrics2():
     app.test_mode()
-    app.handle_command('/lyrics Rapid Elemental Dissolve', 0,0)
+    app.handle_command('/lyrics Rapid Elemental Dissolve', 0)
 
 def test_lyrics3():
     app.test_mode()
-    app.handle_command('/lyrics asdwqjwodjaosjdoqjwodjaosd', 0,0)
+    app.handle_command('/lyrics asdwqjwodjaosjdoqjwodjaosd', 0)
 
 def test_lyrics4():
     app.test_mode()
-    app.handle_command('/lyrics asdwqjwodjaosjdoqjwodjaosd by qiwjdoijasidjoqiwjdoiajsodijqwd', 0,0)
+    app.handle_command('/lyrics asdwqjwodjaosjdoqjwodjaosd by qiwjdoijasidjoqiwjdoiajsodijqwd', 0)
 
 def test_no_command():
     app.test_mode()
