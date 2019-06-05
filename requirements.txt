@@ -1,7 +1,8 @@
-urllib3==1.24.1
-aiohttp
+#urllib3==1.24.1
+#aiohttp
+#telepot
+python-telegram-bot
 git+git://github.com/BoseCorp/py-googletrans@master
-telepot
 pycountry
 wikipedia
 lyricwikia
