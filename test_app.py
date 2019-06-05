@@ -34,7 +34,7 @@ def test_handle():
     # msg['text'] = 'Fake message'
     # msg['from'] = {}
     # msg['chat'] = {'id' : 0}
-    app.handle('Fake message', 0)
+    app.handle('Fake message', 0, 0)
 
 def test_handle_translate1():
     app.test_mode()
@@ -43,7 +43,7 @@ def test_handle_translate1():
     # msg['from'] = {}
     # msg['message_id'] = 0
     # msg['chat'] = {'id' : 0}
-    app.handle('dui you ne?', 0,)
+    app.handle('dui you ne?', 0, 0)
 
 def test_handle_translate2():
     app.test_mode()
@@ -52,7 +52,7 @@ def test_handle_translate2():
     # msg['from'] = {}
     # msg['message_id'] = 0
     # msg['chat'] = {'id' : 0}
-    app.handle('没有人 overnight 的',0)
+    app.handle('没有人 overnight 的',0,0)
 
 def test_handle_command_lyrics():
     app.test_mode()
@@ -61,39 +61,39 @@ def test_handle_command_lyrics():
     # msg['from'] = {}
     # msg['message_id'] = 0
     # msg['chat'] = {'id' : 0}
-    app.handle('/lyrics the art of dying by gojira', 0)
+    app.handle('/lyrics the art of dying by gojira', 0,0)
 
 def test_handle_back():
     # msg = {'date' : 0}
-    app.handle('',0, datetime.utcfromtimestamp(0))
+    app.handle('',0, 0, datetime.utcfromtimestamp(0))
 
 def test_wiki1():
     app.test_mode()
-    app.handle_command('/wiki metallica', 0)
+    app.handle_command('/wiki metallica', 0,0)
 
 def test_wiki2():
     app.test_mode()
-    app.handle_command('/wiki battery', 0)
+    app.handle_command('/wiki battery', 0,0)
 
 def test_wiki3():
     app.test_mode()
-    app.handle_command('/wiki asdhajshdkhwirqwiofhaishd', 0)
+    app.handle_command('/wiki asdhajshdkhwirqwiofhaishd', 0,0)
 
 def test_lyrics1():
     app.test_mode()
-    app.handle_command('/lyrics backbone by gojira', 0)
+    app.handle_command('/lyrics backbone by gojira', 0,0)
 
 def test_lyrics2():
     app.test_mode()
-    app.handle_command('/lyrics Rapid Elemental Dissolve', 0)
+    app.handle_command('/lyrics Rapid Elemental Dissolve', 0,0)
 
 def test_lyrics3():
     app.test_mode()
-    app.handle_command('/lyrics asdwqjwodjaosjdoqjwodjaosd', 0)
+    app.handle_command('/lyrics asdwqjwodjaosjdoqjwodjaosd', 0,0)
 
 def test_lyrics4():
     app.test_mode()
-    app.handle_command('/lyrics asdwqjwodjaosjdoqjwodjaosd by qiwjdoijasidjoqiwjdoiajsodijqwd', 0)
+    app.handle_command('/lyrics asdwqjwodjaosjdoqjwodjaosd by qiwjdoijasidjoqiwjdoiajsodijqwd', 0,0)
 
 def test_no_command():
     app.test_mode()
