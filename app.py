@@ -60,7 +60,7 @@ def main():
 
                 if update.callback_query:
                     on_callback_query(update.callback_query.id, update.callback_query.message.chat.id, update.callback_query.message.message_id, update.callback_query.data)
-                elif update.message:  # your bot can receive updates without messages
+                elif update.message and update.message.text:  # your bot can receive updates without messages
                     # Reply to the message
                     handle(update.message.text, update.message.chat_id, update.message.message_id, update.message.date)
         except NetworkError:
