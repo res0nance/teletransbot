@@ -50,7 +50,6 @@ def send_message(id, msg, **kwargs):
 def main():
     global update_id
     init()
-    pprint.pprint(bot.getMe())
 
     while True:
         try:
@@ -177,10 +176,6 @@ def handle_command(text,id):
 
 
 def on_callback_query(query_id, chat_id, msg_idf, data):
-    # query_id, from_id, data = telepot.glance(msg, flavor='callback_query')
-    print('Callback query:', query_id, chat_id, msg_idf, data)
-    # pprint.pprint(msg)
-    # msg_idf = telepot.message_identifier(msg['message'])
     bot.editMessageText(wikipedia.summary(data), chat_id=chat_id, message_id=msg_idf)
 
 def handle(message, id, msg_id, date=None):
