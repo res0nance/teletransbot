@@ -97,11 +97,11 @@ def test_lyrics4():
 
 def test_animelyrics():
     app.test_mode()
-    app.handle_command('/lyrics renai circulation', 0)
+    app.handle_command('/animelyrics renai circulation', 0)
 
 def test_animelyrics_no_lyrics():
     app.test_mode()
-    app.handle_command('/lyrics omgwtfbbq', 0)
+    app.handle_command('/animelyrics omgwtfbbq', 0)
 
 def test_no_command():
     app.test_mode()
