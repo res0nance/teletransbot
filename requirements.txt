@@ -7,3 +7,4 @@ pycountry
 wikipedia
 lyricwikia
 darklyrics
+animelyrics
