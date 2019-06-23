@@ -12,7 +12,7 @@ import unicodedata
 import wikipedia
 import lyricwikia
 import darklyrics
-
+import animelyrics
 
 target_language = 'en'
 isascii = lambda s: len(s) == len(s.encode())
@@ -172,6 +172,15 @@ def handle_command(text,id):
                 except darklyrics.LyricsNotFound:
                     send_message(id, "No lyrics found", quote=False)
             return True
+    elif commands[0] == '/animelyrics':
+        print('Anime lyrics command')
+        query = ' '.join(commands[1:])
+        try:
+            lyrics = animelyrics.search_lyrics(query)
+            send_message(id, lyrics, quote=False)
+        except animelyrics.NoLyricsFound:
+            send_message(id, "No lyrics found", quote=False)
+        return True
     return False
 
 
