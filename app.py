@@ -16,7 +16,7 @@ import animelyrics
 
 target_language = 'en'
 isascii = lambda s: len(s) == len(s.encode())
-allowed_languages = ['zh', 'ja', 'ms', 'id', 'tl']
+allowed_languages = ['zh', 'ja', 'ms', 'id', 'tl', 'fr']
 
 
 bot        = None
