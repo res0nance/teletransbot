@@ -4,7 +4,7 @@ from telegram.error import NetworkError, Unauthorized
 from time import sleep
 import pprint
 import time
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from googletrans import Translator
 import os
 import pycountry
@@ -190,7 +190,7 @@ def on_callback_query(query_id, chat_id, msg_idf, data):
 def handle(message, id, msg_id, date=None):
 
     if date != None:
-        delta = datetime.utcnow() - date
+        delta = datetime.now(timezone.utc) - date
         if delta > timedelta(minutes = 1):
             return
 
